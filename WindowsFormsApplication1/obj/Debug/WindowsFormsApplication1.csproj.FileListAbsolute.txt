@@ -1,0 +1,20 @@
+c:\users\дарья\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Дарья\Documents\Visual Studio 2015\Projects\ЭВМ 3 лаб\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\учеба\Архитектура ЭВМ\ЭВМ 3 лаб — копия (2)\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
