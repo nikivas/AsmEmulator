@@ -785,7 +785,6 @@
             this.textBoxA9_Dec.Name = "textBoxA9_Dec";
             this.textBoxA9_Dec.Size = new System.Drawing.Size(100, 20);
             this.textBoxA9_Dec.TabIndex = 36;
-            this.textBoxA9_Dec.TextChanged += new System.EventHandler(this.c_dec_a9_TextChanged);
             // 
             // textBoxA8_Dec
             // 

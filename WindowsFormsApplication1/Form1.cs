@@ -89,16 +89,6 @@ namespace WindowsFormsApplication1
             }
         }
 
-        private void c_dec_a9_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonRun_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void anyTextBoxChangedBin(object sender, EventArgs e)
         {
             var el = (TextBox)sender;
