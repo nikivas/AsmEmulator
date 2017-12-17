@@ -187,19 +187,21 @@ namespace WindowsFormsApplication1
             var firstEl = bufferString[1]; // имя регистра к которому обращаются
 
             Register counter = getRegisterFromDictionary(firstEl); //  регистр назначения
-            
-            if (com.Equals("INC")) // единственная ф-я без аргументов
+
+            var method = typeof(Register).GetMethod(com); // reflection
+            var paramsCount = method.GetParameters().Length;
+            object[] param;
+            if (paramsCount == 0)
             {
-                counter.INC();
+                param = new object[] { };
+                method.Invoke(counter, param);
             }
-            else
+            else if(paramsCount == 1)
             {
                 if (bufferString.Count < 3) // если недостаточно аргументов
                     return;
 
-                object[] param; // параметры ф-ции для рефлексии
-
-                if (bufferString[2][0] >= 48 && bufferString[2][0] <= 57 || bufferString[2][0] == '-')
+                if (bufferString[2][0] >= '0' && bufferString[2][0] <= '9' || bufferString[2][0] == '-')
                 {
                     param = new object[] { new Register(SByte.Parse(bufferString[2])) { frm = this } }; // если 2 аргумент - число
                 }
@@ -208,9 +210,10 @@ namespace WindowsFormsApplication1
                     Register secondArgCounter = getRegisterFromDictionary(bufferString[2]); // если 2 аргумент - другой регистр/память
                     param = new object[] { secondArgCounter };
                 }
-                var method = typeof(Register).GetMethod(com); // reflection
                 method.Invoke(counter, param);
+
             }
+            
         }
 
         private void buttonStep_Click(object sender, EventArgs e)

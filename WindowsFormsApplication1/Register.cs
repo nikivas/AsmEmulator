@@ -96,7 +96,8 @@ namespace WindowsFormsApplication1
 
         public void NOT()
         {
-            setValue(isCorrect(this.getValue() ^ 0xFF));
+            var el = new Register(-1); // his mask is b_1:111_1111
+            setValue(isCorrect(this.getValue() ^ el.getValue()));
         }
 
         public void SHR(ref Register reg) 
@@ -141,6 +142,15 @@ namespace WindowsFormsApplication1
             int count = reg.getValue();
             _bitShifterOverride(count, isRight: false, isNeedCF: true);
         }
+
+        //**************THIRD LAB****************//
+
+        public void NEG()
+        {
+            var el = new Register(-128);// his mask is b_1:000_0000
+            setValue(isCorrect(this.getValue() ^ el.getValue()));
+        }
+
 
     }
 }
