@@ -40,8 +40,21 @@ namespace WindowsFormsApplication1
             {
                 MessageBox.Show("Ошибка инициализации программы");
             }
+
+            textBoxSF_Flag.Leave += new EventHandler(this.flagChanged);
+            textBoxCF_Flag.Leave += new EventHandler(this.flagChanged);
+            textBoxOF_Flag.Leave += new EventHandler(this.flagChanged);
+            textBoxZF_Flag.Leave += new EventHandler(this.flagChanged);
+
         }
 
+        public void flagChanged(object sender, EventArgs e)
+        {
+            //foreach (var el in regDic)
+            //{
+            //    el.Value.updateFlagsWithText();
+            //}
+        }
         
         private bool fillDic(Control.ControlCollection collection, ref Dictionary<string,Register> dictionary)
         {

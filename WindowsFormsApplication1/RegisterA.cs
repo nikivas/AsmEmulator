@@ -91,6 +91,11 @@ namespace WindowsFormsApplication1
             return str;
         }
 
+        protected sbyte _getSByteByBinString(string value)
+        {
+            return Convert.ToSByte(value, BIN_SYSTEM);
+        }
+
         protected void _bitShifterOverride(int count, bool isRight = true, bool isNeedCF = false)
         {
             string binaryString = getBinStringByValue();
@@ -100,21 +105,21 @@ namespace WindowsFormsApplication1
                 binaryString += flagCF.Text;
             }
 
-            _getMoveRL(ref binaryString, count, isRight: isRight);
+            _getMoveRL(ref binaryString, count, isRight: isRight, isNeedCF: false);
 
             if (isNeedCF)
             {
                 CF = binaryString[binStrLast] == '1';
             }
-            this.value = Convert.ToSByte(binaryString.Substring(0, binStrLast), BIN_SYSTEM);
-            setValue(isCorrect(this.getValue()));
+            this.value = _getSByteByBinString(binaryString.Substring(0, binStrLast));
+            setValue(isCorrect(this.getValue(), isSF: false));
         }
 
-        protected void _getMoveRL(ref string binaryString, int count, bool isRight = true)
+        protected void _getMoveRL(ref string binaryString, int count, bool isRight = true, bool isNeedCF = true)
         {
             while (count > 0)
             {
-                if (count == 1)
+                if (count == 1 && isNeedCF)
                 {
                     CF = binaryString[binaryString.Length - 1] == '1';
                 }
@@ -131,7 +136,6 @@ namespace WindowsFormsApplication1
                 count--;
             }
         }
-
 
         public int updateTextBox()
         {
@@ -153,22 +157,27 @@ namespace WindowsFormsApplication1
             return result;
         }
 
-        public sbyte isCorrect(int value)
+        protected sbyte _correctValue(int value)
         {
+            return value > 0 ? (sbyte)(value % 128) : (sbyte)(value % 129);
+        }
 
-            sbyte result = value > 0 ? (sbyte)(value % 128) : (sbyte)(value % 129);
-            ZF |= (result == 0);
-            SF |= (result < 0);
-            if (value > 0)
-            {
-                CF |= (Math.Abs(value) > 127);
-                OF |= (Math.Abs(value) > 127);
-            }
-            else
-            {
-                CF |= (Math.Abs(value) > 128);
-                OF |= (Math.Abs(value) > 128);
-            }
+        public sbyte isCorrect( int value, bool isZF = true, 
+                                bool isSF = true, bool isCF = true,
+                                bool isOF = true)
+        {
+            sbyte result = _correctValue(value);
+
+            if (isZF)
+                ZF |= (result == 0);
+
+            if(isSF)
+                SF |= (result < 0);
+
+            if (isCF)
+                CF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
+            if(isOF)
+                OF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
 
             setFlag();
 
@@ -196,5 +205,16 @@ namespace WindowsFormsApplication1
 
         }
 
+        public void updateFlagsWithText()
+        {
+            if(flagCF != null)
+                CF = flagCF.Text == "1";
+            if (flagOF != null)
+                CF = flagOF.Text == "1";
+            if (flagSF != null)
+                CF = flagSF.Text == "1";
+            if (flagZF != null)
+                CF = flagZF.Text == "1";
+        }
     }
 }

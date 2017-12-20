@@ -97,7 +97,7 @@ namespace WindowsFormsApplication1
         public void NOT()
         {
             var el = new Register(-1); // his mask is b_1:111_1111
-            setValue(isCorrect(this.getValue() ^ el.getValue()));
+            setValue(isCorrect(this.getValue() ^ el.getValue()));  // equals XOR  0XFF but they do not working
         }
 
         public void SHR(ref Register reg) 
@@ -148,8 +148,48 @@ namespace WindowsFormsApplication1
         public void NEG()
         {
             var el = new Register(-128);// his mask is b_1:000_0000
-            setValue(isCorrect(this.getValue() ^ el.getValue()));
+            setValue(isCorrect(0-this.getValue()));
         }
+
+        public void MOV(ref Register reg)
+        {
+            setValue(isCorrect(reg.getValue()));
+        }
+
+        public void CMP(ref Register reg)
+        {
+            Register nReg = new Register(this.getValue() - reg.getValue());
+
+            if (nReg.getBinStringByValue()[0] == '1')
+                CF = true;
+            else if(nReg.getBinStringByValue().Where(x=> x=='0').Count() == REGISTER_SIZE)
+                ZF = true;
+
+            if(this.getBinStringByValue()[0] == '1')
+                SF = true;
+
+            isCorrect(INCEREMENT_VALUE);
+        }
+
+        public void SWAP()
+        {
+            var reg = new Register(4);
+            this.ROR(ref reg );
+        }
+
+        public void TEST(ref Register reg)
+        {
+            if(reg.getValue() == this.getValue())
+            {
+                ZF = true;
+            }
+            else
+            {
+                SF = true;
+            }
+            isCorrect(INCEREMENT_VALUE);
+        }
+
 
 
     }
