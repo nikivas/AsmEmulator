@@ -9,6 +9,7 @@ namespace WindowsFormsApplication1
 {
     public class RegisterA
     {
+        public string name { get; set; }
         public sbyte value;
 
         public TextBox textBoxOutput_Dec { get; set; }
@@ -18,12 +19,14 @@ namespace WindowsFormsApplication1
         public TextBox flagZF { get; set; }
         public TextBox flagSF { get; set; }
         public TextBox flagOF { get; set; }
+        public TextBox flagDF { get; set; }
 
         //bool CF, bool ZF, bool SF, bool OF
         public bool CF = false;
         public bool ZF = false;
         public bool SF = false;
         public bool OF = false;
+        public bool DF = false;
 
         public Form1 frm { get; set; }
 
@@ -164,7 +167,7 @@ namespace WindowsFormsApplication1
 
         public sbyte isCorrect( int value, bool isZF = true, 
                                 bool isSF = true, bool isCF = true,
-                                bool isOF = true)
+                                bool isOF = true, bool isDF = false)
         {
             sbyte result = _correctValue(value);
 
@@ -178,14 +181,15 @@ namespace WindowsFormsApplication1
                 CF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
             if(isOF)
                 OF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
-
+            if (isDF)
+                DF |= DF;
             setFlag();
 
             CF = false;
             ZF = false;
             SF = false;
             OF = false;
-
+            DF = false;
             return result;
         }
 
@@ -203,6 +207,8 @@ namespace WindowsFormsApplication1
             if (flagOF != null)
                 flagOF.Text = OF ? "1" : "0";
 
+            //if (flagDF != null)
+            //    flagDF.Text = DF ? "1" : "0";
         }
 
         public void updateFlagsWithText()
@@ -215,6 +221,11 @@ namespace WindowsFormsApplication1
                 CF = flagSF.Text == "1";
             if (flagZF != null)
                 CF = flagZF.Text == "1";
+        }
+
+        public bool ifRegisterName()
+        {
+            return name[1] < '0' || name[1] > '9';
         }
     }
 }

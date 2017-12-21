@@ -28,6 +28,25 @@ namespace WindowsFormsApplication1
 
         List<string> commandQueue = new List<string>();
 
+        public Register getNextMemorybyName(string mem, bool isBottom = true)
+        {
+            List<string> listNames = new List<string>();
+                listNames.AddRange((from el in memDic.Keys
+                     select el).OrderBy(x => int.Parse(x.Substring(1))).ToArray());
+
+            int idx;
+            if(isBottom)
+                idx = (listNames.IndexOf(mem) + 1) % listNames.Count;
+            else
+            {
+                idx = listNames.IndexOf(mem);
+                idx = idx == 0 ? listNames.Count - 1 : idx - 1;
+            }
+                
+           
+            return memDic[listNames[idx]];
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             var regTextBoxCollection = this.groupBox2.Controls;
@@ -46,6 +65,7 @@ namespace WindowsFormsApplication1
             textBoxOF_Flag.Leave += new EventHandler(this.flagChanged);
             textBoxZF_Flag.Leave += new EventHandler(this.flagChanged);
 
+            getNextMemorybyName("A12", isBottom: false);
         }
 
         public void flagChanged(object sender, EventArgs e)
@@ -73,7 +93,7 @@ namespace WindowsFormsApplication1
 
                     if (!dictionary.ContainsKey(registerName))
                     {
-                        registerCounter = new Register() { frm = this };
+                        registerCounter = new Register() { frm = this, name = registerName };
                         dictionary.Add(registerName, registerCounter);
                     }
                     
@@ -81,6 +101,7 @@ namespace WindowsFormsApplication1
                     dictionary[registerName].flagOF = textBoxOF_Flag;
                     dictionary[registerName].flagSF = textBoxSF_Flag;
                     dictionary[registerName].flagZF = textBoxZF_Flag;
+                    dictionary[registerName].flagDF = textBoxDF_Flag;
 
                     if (el.Name.Substring(10 + registerName.Length -2 , 1).ToUpper().Equals("B"))
                     {
@@ -216,7 +237,7 @@ namespace WindowsFormsApplication1
 
                 if (bufferString[2][0] >= '0' && bufferString[2][0] <= '9' || bufferString[2][0] == '-')
                 {
-                    param = new object[] { new Register(SByte.Parse(bufferString[2])) { frm = this } }; // если 2 аргумент - число
+                    param = new object[] { new Register(SByte.Parse(bufferString[2])) { frm = this, name = "AAA" } }; // если 2 аргумент - число
                 }
                 else
                 {

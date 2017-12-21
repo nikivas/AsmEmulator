@@ -116,7 +116,18 @@ namespace WindowsFormsApplication1
         public void SHL(ref Register reg)
         {
             var count = reg.getValue();
-            setValue(isCorrect(this.getValue() << count));
+            if(this.getValue() < 0)
+            {
+                var a = new Register(-128);
+                this.XOR(ref a);
+                setValue(isCorrect(this.getValue() << count));
+                this.XOR(ref a);
+            }
+            else
+            {
+                setValue(isCorrect(this.getValue() << count));
+            }
+            
         }
 
         public void ROR(ref Register reg)
@@ -190,7 +201,26 @@ namespace WindowsFormsApplication1
             isCorrect(INCEREMENT_VALUE);
         }
 
+        public void MOVS(ref Register reg)
+        {
+            var a = frm.getRegisterFromDictionary("CH");
+            if (a.getValue() <= 0) return;
 
+            var nextEl = frm.getNextMemorybyName(this.name, isBottom: flagDF.Text == "1");
+            if (reg.ifRegisterName() )
+            {
+                a.setValue(a.isCorrect(a.getValue()-1));
+                this.setValue(isCorrect(reg.getValue()));
+                nextEl.MOVS(ref reg);
+            }
+            else
+            {
+                a.setValue(a.isCorrect(a.getValue() - 1));
+                this.setValue(isCorrect(reg.getValue()));
+                var nextRef = frm.getNextMemorybyName(reg.name);
+                nextEl.MOVS(ref nextRef);
+            }
+        }
 
     }
 }
