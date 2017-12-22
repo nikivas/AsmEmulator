@@ -35,7 +35,7 @@ namespace WindowsFormsApplication1
         public void ADC(ref Register reg) //сложение ???
         {
             var value = reg.getValue();
-            setValue(isCorrect((this.value+ int.Parse(flagCF.Text)) + value));
+            setValue(isCorrect((this.value+ int.Parse(flags["CF"].textBoxF.Text)) + value));
         }
 
         public void MUL(ref Register reg)
@@ -54,7 +54,7 @@ namespace WindowsFormsApplication1
         {
 
             var value = reg.getValue();
-            int result = (this.value - int.Parse(flagCF.Text)) - value;
+            int result = (this.value - int.Parse(flags["CF"].textBoxF.Text)) - value;
             setValue(isCorrect(result));
         }
 
@@ -103,7 +103,7 @@ namespace WindowsFormsApplication1
         public void SHR(ref Register reg) 
         {
             var count = reg.getValue();
-            CF = this.getValue() >> (count - 1) % 2 == 1;
+            flags["CF"].value = this.getValue() >> (count - 1) % 2 == 1;
             var res = 0;
             res = this.getValue() >> (count);
             setValue(isCorrect(res));
@@ -172,12 +172,12 @@ namespace WindowsFormsApplication1
             Register nReg = new Register(this.getValue() - reg.getValue());
 
             if (nReg.getBinStringByValue()[0] == '1')
-                CF = true;
-            else if(nReg.getBinStringByValue().Where(x=> x=='0').Count() == REGISTER_SIZE)
-                ZF = true;
+                flags["CF"].value = true;
+            else if (nReg.getBinStringByValue().Where(x => x == '0').Count() == REGISTER_SIZE)
+                flags["ZF"].value = true;
 
-            if(this.getBinStringByValue()[0] == '1')
-                SF = true;
+            if (this.getBinStringByValue()[0] == '1')
+                flags["SF"].value = true;
 
             isCorrect(INCEREMENT_VALUE);
         }
@@ -192,11 +192,11 @@ namespace WindowsFormsApplication1
         {
             if(reg.getValue() == this.getValue())
             {
-                ZF = true;
+                flags["ZF"].value = true;
             }
             else
             {
-                SF = true;
+                flags["SF"].value = true;
             }
             isCorrect(INCEREMENT_VALUE);
         }
@@ -206,7 +206,7 @@ namespace WindowsFormsApplication1
             var a = frm.getRegisterFromDictionary("CH");
             if (a.getValue() <= 0) return;
 
-            var nextEl = frm.getNextMemorybyName(this.name, isBottom: flagDF.Text == "1");
+            var nextEl = frm.getNextMemorybyName(this.name, isBottom: flags["DF"].textBoxF.Text == "1");
             if (reg.ifRegisterName() )
             {
                 a.setValue(a.isCorrect(a.getValue()-1));

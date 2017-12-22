@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApplication1.flags;
 
 namespace WindowsFormsApplication1
 {
@@ -15,19 +16,6 @@ namespace WindowsFormsApplication1
         public TextBox textBoxOutput_Dec { get; set; }
         public TextBox textBoxOutput_Bin { get; set; }
 
-        public TextBox flagCF { get; set; }
-        public TextBox flagZF { get; set; }
-        public TextBox flagSF { get; set; }
-        public TextBox flagOF { get; set; }
-        public TextBox flagDF { get; set; }
-
-        //bool CF, bool ZF, bool SF, bool OF
-        public bool CF = false;
-        public bool ZF = false;
-        public bool SF = false;
-        public bool OF = false;
-        public bool DF = false;
-
         public Form1 frm { get; set; }
 
 
@@ -36,8 +24,13 @@ namespace WindowsFormsApplication1
         public const int INCEREMENT_VALUE = 1;
         public const sbyte ZNAK_BYTE = -128;
 
+        public static readonly int MAX_VAL = 127;
+        public static readonly int MIN_VAL = -128;
+
         public const sbyte REGISTER_SIZE = 8;
 
+
+        public Dictionary<string,FlagA> flags = new Dictionary<string, FlagA>();
 
         public sbyte getValue()
         {
@@ -50,26 +43,38 @@ namespace WindowsFormsApplication1
             updateTextBox();
         }
 
+        protected void flags_INIT()
+        {
+            flags.Add("CF", new FlagCF());
+            flags.Add("OF", new FlagOF());
+            flags.Add("SF", new FlagSF());
+            flags.Add("ZF", new FlagZF());
+            flags.Add("DF", new FlagDF());
+        }
 
         #region<constructors>
 
         public RegisterA()
         {
+            flags_INIT();
             setValue(0);
         }
 
         public RegisterA(sbyte value)
         {
+            flags_INIT();
             setValue(value);
         }
 
         public RegisterA(int value)
         {
+            flags_INIT();
             setValue(isCorrect(value));
         }
 
         public RegisterA(sbyte value, TextBox textBoxOutput_Bin, TextBox textBoxOutput_Dec)
         {
+            flags_INIT();
             setValue(value);
             this.textBoxOutput_Bin = textBoxOutput_Bin;
             this.textBoxOutput_Dec = textBoxOutput_Dec;
@@ -105,17 +110,17 @@ namespace WindowsFormsApplication1
             int binStrLast = binaryString.Length;
             if (isNeedCF)
             {
-                binaryString += flagCF.Text;
+                binaryString += flags["CF"].textBoxF.Text;
             }
 
             _getMoveRL(ref binaryString, count, isRight: isRight, isNeedCF: false);
 
             if (isNeedCF)
             {
-                CF = binaryString[binStrLast] == '1';
+                flags["CF"].value = binaryString[binStrLast] == '1';
             }
             this.value = _getSByteByBinString(binaryString.Substring(0, binStrLast));
-            setValue(isCorrect(this.getValue(), isSF: false));
+            setValue(isCorrect(this.getValue(), notNeed: new List<string> {"SF" }));
         }
 
         protected void _getMoveRL(ref string binaryString, int count, bool isRight = true, bool isNeedCF = true)
@@ -124,7 +129,7 @@ namespace WindowsFormsApplication1
             {
                 if (count == 1 && isNeedCF)
                 {
-                    CF = binaryString[binaryString.Length - 1] == '1';
+                    flags["CF"].value = binaryString[binaryString.Length - 1] == '1';
                 }
                 if (isRight)
                 {
@@ -160,67 +165,25 @@ namespace WindowsFormsApplication1
             return result;
         }
 
-        protected sbyte _correctValue(int value)
+        public static sbyte getNewCorrectValue(int value)
         {
             return value > 0 ? (sbyte)(value % 128) : (sbyte)(value % 129);
         }
 
-        public sbyte isCorrect( int value, bool isZF = true, 
-                                bool isSF = true, bool isCF = true,
-                                bool isOF = true, bool isDF = false)
+        public sbyte isCorrect( int value, List<string> notNeed = null)
         {
-            sbyte result = _correctValue(value);
+            sbyte result = getNewCorrectValue(value);
 
-            if (isZF)
-                ZF |= (result == 0);
+            foreach (var el in flags)
+            {
+                if(notNeed != null)
+                    if (notNeed.Contains(el.Key))
+                        continue;
+                if (el.Value.textBoxF != null)
+                    el.Value.setValue(value);
+            }
 
-            if(isSF)
-                SF |= (result < 0);
-
-            if (isCF)
-                CF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
-            if(isOF)
-                OF |= value > 0 ? (Math.Abs(value) > 127) : (Math.Abs(value) > 128);
-            if (isDF)
-                DF |= DF;
-            setFlag();
-
-            CF = false;
-            ZF = false;
-            SF = false;
-            OF = false;
-            DF = false;
             return result;
-        }
-
-        protected void setFlag()
-        {
-            if (flagCF != null)
-                flagCF.Text = CF ? "1" : "0";
-
-            if (flagZF != null)
-                flagZF.Text = ZF ? "1" : "0";
-
-            if (flagSF != null)
-                flagSF.Text = SF ? "1" : "0";
-
-            if (flagOF != null)
-                flagOF.Text = OF ? "1" : "0";
-
-            //if (flagDF != null)
-            //    flagDF.Text = DF ? "1" : "0";
-        }
-
-        public void updateFlagsWithText()
-        {
-            if(flagCF != null)
-                CF = flagCF.Text == "1";
-            if (flagOF != null)
-                CF = flagOF.Text == "1";
-            if (flagSF != null)
-                CF = flagSF.Text == "1";
-            if (flagZF != null)
-                CF = flagZF.Text == "1";
         }
 
         public bool ifRegisterName()

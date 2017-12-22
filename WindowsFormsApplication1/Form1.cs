@@ -97,11 +97,11 @@ namespace WindowsFormsApplication1
                         dictionary.Add(registerName, registerCounter);
                     }
                     
-                    dictionary[registerName].flagCF = textBoxCF_Flag;
-                    dictionary[registerName].flagOF = textBoxOF_Flag;
-                    dictionary[registerName].flagSF = textBoxSF_Flag;
-                    dictionary[registerName].flagZF = textBoxZF_Flag;
-                    dictionary[registerName].flagDF = textBoxDF_Flag;
+                    dictionary[registerName].flags["CF"].textBoxF = textBoxCF_Flag;
+                    dictionary[registerName].flags["OF"].textBoxF = textBoxOF_Flag;
+                    dictionary[registerName].flags["SF"].textBoxF = textBoxSF_Flag;
+                    dictionary[registerName].flags["ZF"].textBoxF = textBoxZF_Flag;
+                    dictionary[registerName].flags["DF"].textBoxF = textBoxDF_Flag;
 
                     if (el.Name.Substring(10 + registerName.Length -2 , 1).ToUpper().Equals("B"))
                     {
