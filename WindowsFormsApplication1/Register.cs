@@ -24,7 +24,6 @@ namespace WindowsFormsApplication1
 
         #endregion
 
-
         public void ADD(ref Register reg) //сложение без переполнения(переноса)
         {
             
